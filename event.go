@@ -17,7 +17,7 @@ type Event struct{
   Start_Date string `json:"start_date"`
 }
 
-func loadEvents(year string)([]Event){
+func LoadEvents(year string) []Event{
   client := &http.Client{}
   req, _ := http.NewRequest("GET", "http://www.thebluealliance.com/api/v2/events/" + year, nil)
   req.Header.Set("X-TBA-App-Id", os.Getenv("TBA_KEY"))
