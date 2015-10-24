@@ -11,6 +11,8 @@ type Match struct {
 	Key          string       `json:"key"`
 	Level        string       `json:"comp_level"`
 	Participants Participants `json:"alliances"`
+	EventCode    string       `json:"event_key"`
+	Time         int64        `json:"time"`
 }
 
 type Participants struct {
@@ -43,11 +45,29 @@ func GetTeams(match Match) []string {
 }
 
 func GetWinningTeams(match Match) []string {
+	return GetWinningAlliance(match).Teams
+}
+
+func GetLosingTeams(match Match) []string {
+	return GetLosingAlliance(match).Teams
+}
+
+func GetWinningAlliance(match Match) Alliance {
 	if match.Participants.RedAlliance.Score > match.Participants.BlueAlliance.Score {
-		return match.Participants.RedAlliance.Teams
+		return match.Participants.RedAlliance
 	}
 	if match.Participants.RedAlliance.Score < match.Participants.BlueAlliance.Score {
-		return match.Participants.BlueAlliance.Teams
+		return match.Participants.BlueAlliance
 	}
-	return []string(nil)
+	return Alliance{}
+}
+
+func GetLosingAlliance(match Match) Alliance {
+	if match.Participants.RedAlliance.Score > match.Participants.BlueAlliance.Score {
+		return match.Participants.BlueAlliance
+	}
+	if match.Participants.RedAlliance.Score < match.Participants.BlueAlliance.Score {
+		return match.Participants.RedAlliance
+	}
+	return Alliance{}
 }

@@ -29,3 +29,16 @@ func LoadEvents(year string) []Event {
 	json.Unmarshal(body, &events)
 	return events
 }
+
+func LoadEvent(eventCode string) Event {
+	client := &http.Client{}
+	req, _ := http.NewRequest("GET", "http://www.thebluealliance.com/api/v2/event/"+eventCode, nil)
+	req.Header.Set("X-TBA-App-Id", os.Getenv("TBA_KEY"))
+	res, _ := client.Do(req)
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	event := Event{}
+	json.Unmarshal(body, &event)
+	return event
+}
