@@ -15,6 +15,7 @@ type Event struct {
 	Official   bool   `json:"official"`
 	Year       int    `json:"year"`
 	Start_Date string `json:"start_date"`
+	Event_Type int    `json:"event_type"`
 }
 
 func LoadEvents(year string) []Event {
